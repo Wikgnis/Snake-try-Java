@@ -1,9 +1,8 @@
 public class Main{
     public static void main(String args[]){
-        GameEngine game = new GameEngine(10, 10);
-        GameInterface displayGame = new GameInterface(game);
+        GameEngine game = new GameEngine(50, 50);
+        GameInterface displayGame = new GameInterface(game, "graphical_interface");
         /* game loop */
-        game.setDir(4);
         displayGame.display();
         while (game.SnakeAlive()){
             game.SnakeMove();

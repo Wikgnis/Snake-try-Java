@@ -1,13 +1,38 @@
-public class GameInterface{
+import javax.swing.*;
+
+public class GameInterface extends JFrame{
+    private static final long serialVersionUID = 1L;
     /* attr */
     private GameEngine gameToDisplay;
     private enum typeDisplay{ Abstract, CMD_line, Graphical_interface }
     private typeDisplay currentDisplay;
+    private JPanel displayPannel;
 
     /* constructor */
     public GameInterface(GameEngine game){
         gameToDisplay = game;
         currentDisplay = typeDisplay.Abstract;
+    }
+
+    public GameInterface(GameEngine game, String typeDis) {
+        gameToDisplay = game;
+        switch (typeDis) {
+            case "graphical_interface":
+                currentDisplay = typeDisplay.Graphical_interface;
+                this.setTitle("Snake in Java");
+                this.setSize(10*game.getW(), 10*game.getH());
+                this.setLocationRelativeTo(null);
+                this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                this.setVisible(true);
+                break;
+            case "cmd_line":
+                currentDisplay = typeDisplay.CMD_line;
+                break;
+            case "abstract":
+            default:
+                currentDisplay = typeDisplay.Abstract;
+                break;
+        }
     }
 
     /* method */
@@ -17,6 +42,7 @@ public class GameInterface{
         }
         return false;
     }
+
     private void AbstractDisplay(){
         System.out.println("____________________________");
         System.out.println("Snake Pos :");
@@ -55,7 +81,14 @@ public class GameInterface{
         }
         CMD_lineDisplayTopBottomPart();
     }
-    
+
+    private void Graphical_interfaceDisplay(){
+        // for debug
+        CMD_lineDisplay();
+        // main part
+
+    }
+
     public void display(){
         switch (currentDisplay){
             case Abstract :
@@ -63,6 +96,9 @@ public class GameInterface{
                 break;
             case CMD_line :
                 CMD_lineDisplay();
+                break;
+            case Graphical_interface :
+                Graphical_interfaceDisplay();
                 break;
             default:
                 break;
