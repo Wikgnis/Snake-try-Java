@@ -11,6 +11,12 @@ public class GameInterface{
     }
 
     /* method */
+    private boolean isSnake(int x, int y){
+        for (int[] coords : gameToDisplay.getSnakePos()){
+            if (x == coords[0] && y == coords[1]) return true;
+        }
+        return false;
+    }
     private void AbstractDisplay(){
         System.out.println("____________________________");
         System.out.println("Snake Pos :");
@@ -24,6 +30,7 @@ public class GameInterface{
         }
         System.out.println("____________________________");
     }
+
     private void CMD_lineDisplayTopBottomPart(){
         System.out.print("+ ");
         for (int i=0; i<gameToDisplay.getW(); i++){
@@ -31,22 +38,28 @@ public class GameInterface{
         }
         System.out.print("+\n");
     }
+
     private void CMD_lineDisplay(){
         CMD_lineDisplayTopBottomPart();
         for (int i=0; i<gameToDisplay.getH(); i++){
             System.out.print("| ");
             for (int e = 0; e < gameToDisplay.getW(); e++) {
-                if (i == )
+                if (isSnake(e, i)) {
+                    System.out.print("0 ");
+                }
+                else {
+                    System.out.print("  ");
+                }
             }
             System.out.print("|\n");
         }
         CMD_lineDisplayTopBottomPart();
     }
+    
     public void display(){
         switch (currentDisplay){
             case Abstract :
                 AbstractDisplay();
-                CMD_lineDisplay();
                 break;
             case CMD_line :
                 CMD_lineDisplay();

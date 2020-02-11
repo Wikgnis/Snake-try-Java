@@ -58,7 +58,7 @@ public class GameEngine{
         }
         body[0].x += dirX;
         body[0].y += dirY;
-        if (body[0].x < 0 || body[0].x > w || body[0].y < 0 || body[0].y > h){
+        if (body[0].x < 0 || body[0].x >= w || body[0].y < 0 || body[0].y >= h){
             SnakeAlive = false;
         }
     }
@@ -86,17 +86,51 @@ public class GameEngine{
         /* vertical */
         else if (dirY !=0){
             switch (dirX) {
-                /* bottom */
+                /* top */
                 case -1:
                     dirReturn = 3;
                     break;
-                /* top */
+                /* bottom */
                 case 1:
                     dirReturn = 4;
                     break;
             }
         }
         return dirReturn;
+    }
+    public void setDir(int dir){
+        switch (dir){
+            /* left */
+            case 1:
+                if (getDir() != 2){
+                    dirX = -1;
+                    dirY = 0;
+                }
+                break;
+            /* right */
+            case 2:
+                if (getDir() != 1){
+                    dirX = 1;
+                    dirY = 0;
+                }
+                break;
+            /* top */
+            case 3:
+                if (getDir() != 4){
+                    dirX = 0;
+                    dirY = -1;
+                }
+                break;
+            /* bottom */
+            case 4:
+                if (getDir() != 3){
+                    dirX = 0;
+                    dirY = 1;
+                }
+                break;
+            default:
+                break;
+        }
     }
     /* private method */
 }
