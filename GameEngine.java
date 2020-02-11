@@ -39,6 +39,7 @@ public class GameEngine{
         while (body[size] != null) size++;
         return size;
     }
+
     public int[][] getSnakePos(){
         int size = getSnakeSize();
         int[][] coords = new int[size][2];
@@ -48,9 +49,11 @@ public class GameEngine{
         }
         return coords;
     }
+
     public boolean SnakeAlive(){
         return SnakeAlive;
     }
+
     public void SnakeMove(){
         for (int i=getSnakeSize()-1; i!=0; i--){
             body[i].x = body[i].topLevel.x;
@@ -62,12 +65,15 @@ public class GameEngine{
             SnakeAlive = false;
         }
     }
+
     public int getW(){
         return w;
     }
+
     public int getH(){
         return h;
     }
+
     public int getDir(){
         int dirReturn = 0;
         /* horizontal */
@@ -84,8 +90,8 @@ public class GameEngine{
             }
         }
         /* vertical */
-        else if (dirY !=0){
-            switch (dirX) {
+        else if (dirY != 0){
+            switch (dirY) {
                 /* top */
                 case -1:
                     dirReturn = 3;
@@ -98,6 +104,7 @@ public class GameEngine{
         }
         return dirReturn;
     }
+
     public void setDir(int dir){
         switch (dir){
             /* left */
@@ -132,5 +139,4 @@ public class GameEngine{
                 break;
         }
     }
-    /* private method */
 }

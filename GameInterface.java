@@ -1,5 +1,4 @@
 import javax.swing.*;
-import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -55,7 +54,7 @@ public class GameInterface extends JFrame implements KeyListener{
         System.out.println("Snake Pos :");
         int size = gameToDisplay.getSnakeSize();
         System.out.println("Size : " + size);
-        System.out.println("Direction : " + (gameToDisplay.getDir() == 1 ? "Left" : gameToDisplay.getDir() == 2 ? "Right" : gameToDisplay.getDir() == 3? "Bottom" : gameToDisplay.getDir() == 4 ? "Top" : "No direction"));
+        System.out.println("Direction : " + gameToDisplay.getDir());
         System.out.println("Dir : " + gameToDisplay.getDir());
         int[][] coords = gameToDisplay.getSnakePos();
         for (int i=0; i<size; i++){
