@@ -1,6 +1,9 @@
 import javax.swing.*;
+import java.awt.Dimension;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public class GameInterface extends JFrame{
+public class GameInterface extends JFrame implements KeyListener{
     private static final long serialVersionUID = 1L;
     /* attr */
     private GameEngine gameToDisplay;
@@ -27,6 +30,7 @@ public class GameInterface extends JFrame{
                 this.setVisible(true);
                 displayPannel = new GraphicDisplaySnake(game, this);
                 this.setContentPane(displayPannel);
+                this.addKeyListener(this);
                 break;
             case "cmd_line":
                 currentDisplay = typeDisplay.CMD_line;
@@ -90,7 +94,13 @@ public class GameInterface extends JFrame{
         //CMD_lineDisplay();
         AbstractDisplay();
         // main part
-
+        displayPannel.update();
+        displayPannel.repaint();
+        try {
+            Thread.sleep(60);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void display(){
@@ -108,4 +118,31 @@ public class GameInterface extends JFrame{
                 break;
         }
     }
+
+    public void keyPressed(KeyEvent e) {
+        switch (e.getKeyCode()) {
+            /* left */
+            case 37:
+                gameToDisplay.setDir(1);
+                break;
+            /* top */
+            case 38:
+                gameToDisplay.setDir(3);
+                break;
+            /* right */
+            case 39:
+                gameToDisplay.setDir(2);
+                break;
+            /* bottom */
+            case 40:
+                gameToDisplay.setDir(4);
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void keyReleased(KeyEvent e) {}
+
+    public void keyTyped(KeyEvent e) {}
 }

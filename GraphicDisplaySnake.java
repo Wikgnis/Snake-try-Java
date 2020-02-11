@@ -13,10 +13,16 @@ class PartDisplay {
         active = false;
     }
     public void setSize(int size){
-        this.size = size;
+        PartDisplay.size = size;
     }
     public boolean isActive(){
         return active;
+    }
+    public void setActive(){
+        active = true;
+    }
+    public void setInactive() {
+        active = false;
     }
     public int getX(){
         return x;
@@ -30,6 +36,7 @@ class PartDisplay {
 }
 
 public class GraphicDisplaySnake extends JPanel{
+    private static final long serialVersionUID = 1L;
     /* attr */
     private GameEngine gameToDisplay;
     private PartDisplay[][] PannelPart;
@@ -48,17 +55,42 @@ public class GraphicDisplaySnake extends JPanel{
             }
         }
         PannelPart[0][0].setSize(master.getWidth()/game.getW());
+        for (int[] coord : gameToDisplay.getSnakePos()) {
+            PannelPart[coord[0]][coord[1]].setActive();
+        }
     }
 
     /* method */
+    public void update(){
+        for (int i = 0; i < gameToDisplay.getH(); i++) {
+            for (int e = 0; e < gameToDisplay.getW(); e++) {
+                PannelPart[i][e].setInactive();
+            }
+        }
+        for (int[] coord : gameToDisplay.getSnakePos()){
+            if (gameToDisplay.SnakeAlive()){
+                PannelPart[coord[1]][coord[0]].setActive();
+            }
+        }
+    }
+
     public void paintComponent(Graphics g) {
+        /* background */
+        g.setColor(Color.black);
+        g.fillRect(0, 0, this.getWidth(), this.getHeight());
+        /* snake */
         for (int i = 0; i < gameToDisplay.getH(); i++) {
             for (int e = 0; e < gameToDisplay.getW(); e++) {
                 if (PannelPart[i][e].isActive()){
-                    g.setColor(Color.black);
-                    g.fillRect(40, 40, PannelPart[i][e].getSize(), PannelPart[i][e].getSize());
+                    g.setColor(Color.green);
+                    g.fillRect(PannelPart[i][e].getX()*PannelPart[i][e].getSize(), PannelPart[i][e].getY()*PannelPart[i][e].getSize(), PannelPart[i][e].getSize(), PannelPart[i][e].getSize());
+                }
+                else {
+                    g.setColor(Color.DARK_GRAY);
+                    g.drawRect(PannelPart[i][e].getX() * PannelPart[i][e].getSize(), PannelPart[i][e].getY() * PannelPart[i][e].getSize(), PannelPart[i][e].getSize(), PannelPart[i][e].getSize());
                 }
             }
         }
+        /* fruit */
     }
 }
