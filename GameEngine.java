@@ -1,3 +1,5 @@
+import java.util.Random;
+
 public class GameEngine{
     /* attr */
     private int w;
@@ -18,6 +20,42 @@ public class GameEngine{
     private BodyPart[] body;
     private boolean SnakeAlive;
     private int dirX, dirY;
+    // fruit
+    private class Fruit{
+        /* attr */
+        private int x;
+        private int y;
+        private int[] max = new int[2];
+        private boolean eaten;
+
+        /* constructor */
+        public Fruit(int maxX, int maxY){
+            max[0] = maxX; 
+            max[1] = maxY;
+            setNewPlace();
+        }
+
+        /* method */
+        public void setNewPlace(){
+            Random r = new Random();
+            x = r.nextInt(max[0]);
+            y = r.nextInt(max[1]);
+            eaten = false;
+        }
+
+        public int getX(){
+            return x;
+        }
+
+        public int getY() {
+            return y;
+        }
+    
+        public boolean isEaten() {
+            return eaten;
+        }
+    }
+    Fruit gFruit;
 
     /* constructor */
     public GameEngine(int width, int height){
@@ -31,6 +69,8 @@ public class GameEngine{
         SnakeAlive = true;
         dirX = -1;
         dirY = 0;
+        /* fruit */
+        gFruit = new Fruit(width, height);
     }
 
     /* public method */
@@ -55,14 +95,31 @@ public class GameEngine{
     }
 
     public void SnakeMove(){
+        /* fruit interaction */
+        int[] coord = getFruitPos();
+        boolean fruitEaten = false;
+        if (body[0].x == coord[0] && body[0].y == coord[1]) {
+            gFruit.setNewPlace();
+            coord[0] = body[getSnakeSize() - 1].x;
+            coord[1] = body[getSnakeSize() - 1].y;
+            fruitEaten = true;
+        }
+        /* main body moving */
         for (int i=getSnakeSize()-1; i!=0; i--){
             body[i].x = body[i].topLevel.x;
             body[i].y = body[i].topLevel.y;
         }
-        body[0].x += dirX;
-        body[0].y += dirY;
-        if (body[0].x < 0 || body[0].x >= w || body[0].y < 0 || body[0].y >= h){
+        /* head moving */
+        if (body[0].x < 0 || body[0].x >= w || body[0].y < 0 || body[0].y >= h){ // death handling
             SnakeAlive = false;
+        }
+        else {
+            body[0].x += dirX;
+            body[0].y += dirY;
+            /* add part if fruit eaten */
+            if (fruitEaten) {
+                body[getSnakeSize()] = new BodyPart(coord[0], coord[1], body[getSnakeSize() - 1]);
+            }
         }
     }
 
@@ -77,7 +134,7 @@ public class GameEngine{
     public int getDir(){
         int dirReturn = 0;
         /* horizontal */
-        if (dirX != 0){
+        if (dirX != 0 && dirY == 0){
             switch (dirX){
                 /* left */
                 case -1:
@@ -90,7 +147,7 @@ public class GameEngine{
             }
         }
         /* vertical */
-        else if (dirY != 0){
+        else if (dirY != 0 && dirX == 0){
             switch (dirY) {
                 /* top */
                 case -1:
@@ -138,5 +195,9 @@ public class GameEngine{
             default:
                 break;
         }
+    }
+
+    public int[] getFruitPos(){
+        return new int[] {gFruit.getX(), gFruit.getY()};
     }
 }

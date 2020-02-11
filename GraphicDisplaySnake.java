@@ -68,7 +68,11 @@ public class GraphicDisplaySnake extends JPanel{
             }
         }
         for (int[] coord : gameToDisplay.getSnakePos()){
-            if (gameToDisplay.SnakeAlive()){
+            if (
+                gameToDisplay.SnakeAlive()
+                &&
+                !(coord[0] < 0 || coord[0] >= gameToDisplay.getW() || coord[1] < 0 || coord[1] >= gameToDisplay.getH())
+                ) {
                 PannelPart[coord[1]][coord[0]].setActive();
             }
         }
@@ -79,11 +83,16 @@ public class GraphicDisplaySnake extends JPanel{
         g.setColor(Color.black);
         g.fillRect(0, 0, this.getWidth(), this.getHeight());
         /* snake */
+        int[] fruitCoords = gameToDisplay.getFruitPos();
         for (int i = 0; i < gameToDisplay.getH(); i++) {
             for (int e = 0; e < gameToDisplay.getW(); e++) {
                 if (PannelPart[i][e].isActive()){
                     g.setColor(Color.green);
                     g.fillRect(PannelPart[i][e].getX()*PannelPart[i][e].getSize(), PannelPart[i][e].getY()*PannelPart[i][e].getSize(), PannelPart[i][e].getSize(), PannelPart[i][e].getSize());
+                }
+                else if (e == fruitCoords[0] && i == fruitCoords[1]) {
+                    g.setColor(Color.red);
+                    g.fillRect(PannelPart[i][e].getX() * PannelPart[i][e].getSize(),PannelPart[i][e].getY() * PannelPart[i][e].getSize(), PannelPart[i][e].getSize(), PannelPart[i][e].getSize());
                 }
                 else {
                     g.setColor(Color.DARK_GRAY);

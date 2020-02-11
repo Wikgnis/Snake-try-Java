@@ -23,7 +23,7 @@ public class GameInterface extends JFrame implements KeyListener{
             case "graphical_interface":
                 currentDisplay = typeDisplay.Graphical_interface;
                 this.setTitle("Snake in Java");
-                this.setSize(10*game.getW(), 10*game.getH());
+                this.setSize(10*(game.getW()+2), 10*(game.getH()+4)); // unknow issue with width and height needed to add values
                 this.setLocationRelativeTo(null);
                 this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 this.setVisible(true);
@@ -56,6 +56,8 @@ public class GameInterface extends JFrame implements KeyListener{
         System.out.println("Size : " + size);
         System.out.println("Direction : " + gameToDisplay.getDir());
         System.out.println("Dir : " + gameToDisplay.getDir());
+        int[] fruitCoords = gameToDisplay.getFruitPos();
+        System.out.println("Fruit : (" + fruitCoords[0] +";"+ fruitCoords[1] + ")");
         int[][] coords = gameToDisplay.getSnakePos();
         for (int i=0; i<size; i++){
             System.out.print("("+coords[i][0]+","+coords[i][1]+")\n");
@@ -79,8 +81,14 @@ public class GameInterface extends JFrame implements KeyListener{
                 if (isSnake(e, i)) {
                     System.out.print("0 ");
                 }
-                else {
-                    System.out.print("  ");
+                else{
+                    int[] coords = gameToDisplay.getFruitPos();
+                    if (e == coords[0] && i == coords[1]) {
+                        System.out.print("1 ");
+                    }
+                    else{
+                        System.out.print("  ");
+                    }
                 }
             }
             System.out.print("|\n");
