@@ -43,7 +43,7 @@ public class GraphicDisplaySnake extends JPanel{
     private GameInterface master;
 
     /* constructor */
-    public GraphicDisplaySnake(GameEngine game , GameInterface master){
+    public GraphicDisplaySnake(GameEngine game , GameInterface master, int size){
         super();
         gameToDisplay = game;
         this.master = master;
@@ -54,7 +54,7 @@ public class GraphicDisplaySnake extends JPanel{
                 PannelPart[i][e] = new PartDisplay(e, i);
             }
         }
-        PannelPart[0][0].setSize(master.getWidth()/game.getW());
+        PannelPart[0][0].setSize(size);
         for (int[] coord : gameToDisplay.getSnakePos()) {
             PannelPart[coord[0]][coord[1]].setActive();
         }

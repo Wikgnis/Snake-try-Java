@@ -1,4 +1,6 @@
 import javax.swing.*;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -19,17 +21,26 @@ public class GameInterface extends JFrame implements KeyListener{
     public GameInterface(GameEngine game, String typeDis) {
         super();
         gameToDisplay = game;
+        int caseSize = 10;
         switch (typeDis) {
             case "graphical_interface":
                 currentDisplay = typeDisplay.Graphical_interface;
+                /* window in itself */
                 this.setTitle("Snake in Java");
-                this.setSize(10*(game.getW()+2), 10*(game.getH()+4)); // unknow issue with width and height needed to add values
-                this.setLocationRelativeTo(null);
                 this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                this.setVisible(true);
-                displayPannel = new GraphicDisplaySnake(game, this);
+                /* jpannel */
+                displayPannel = new GraphicDisplaySnake(game, this, caseSize);
                 this.setContentPane(displayPannel);
+                this.getContentPane().setPreferredSize(new Dimension(caseSize * (game.getW()), caseSize * (game.getH())));
+                /* keylistener */
                 this.addKeyListener(this);
+                /* center window */
+                Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+                this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
+                /* show window */
+                this.pack();
+                this.setLocationRelativeTo(null);
+                this.setVisible(true);
                 break;
             case "cmd_line":
                 currentDisplay = typeDisplay.CMD_line;
@@ -38,6 +49,39 @@ public class GameInterface extends JFrame implements KeyListener{
             default:
                 currentDisplay = typeDisplay.Abstract;
                 break;
+        }
+    }
+
+    public GameInterface(GameEngine game, String typeDis, int caseSize) {
+        super();
+        gameToDisplay = game;
+        switch (typeDis) {
+        case "graphical_interface":
+            currentDisplay = typeDisplay.Graphical_interface;
+            /* window in itself */
+            this.setTitle("Snake in Java");
+            this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            /* jpannel */
+            displayPannel = new GraphicDisplaySnake(game, this, caseSize);
+            this.setContentPane(displayPannel);
+            this.getContentPane().setPreferredSize(new Dimension(caseSize * (game.getW()), caseSize * (game.getH())));
+            /* keylistener */
+            this.addKeyListener(this);
+            /* center window */
+            Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+            this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
+            /* show window */
+            this.pack();
+            this.setLocationRelativeTo(null);
+            this.setVisible(true);
+            break;
+        case "cmd_line":
+            currentDisplay = typeDisplay.CMD_line;
+            break;
+        case "abstract":
+        default:
+            currentDisplay = typeDisplay.Abstract;
+            break;
         }
     }
 
