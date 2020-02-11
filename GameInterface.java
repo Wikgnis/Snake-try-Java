@@ -6,7 +6,7 @@ public class GameInterface extends JFrame{
     private GameEngine gameToDisplay;
     private enum typeDisplay{ Abstract, CMD_line, Graphical_interface }
     private typeDisplay currentDisplay;
-    private JPanel displayPannel;
+    private GraphicDisplaySnake displayPannel;
 
     /* constructor */
     public GameInterface(GameEngine game){
@@ -15,6 +15,7 @@ public class GameInterface extends JFrame{
     }
 
     public GameInterface(GameEngine game, String typeDis) {
+        super();
         gameToDisplay = game;
         switch (typeDis) {
             case "graphical_interface":
@@ -24,6 +25,8 @@ public class GameInterface extends JFrame{
                 this.setLocationRelativeTo(null);
                 this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 this.setVisible(true);
+                displayPannel = new GraphicDisplaySnake(game, this);
+                this.setContentPane(displayPannel);
                 break;
             case "cmd_line":
                 currentDisplay = typeDisplay.CMD_line;
@@ -84,7 +87,8 @@ public class GameInterface extends JFrame{
 
     private void Graphical_interfaceDisplay(){
         // for debug
-        CMD_lineDisplay();
+        //CMD_lineDisplay();
+        AbstractDisplay();
         // main part
 
     }
