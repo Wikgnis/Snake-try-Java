@@ -64,21 +64,27 @@ public class GameEngine{
     }
     public int getDir(){
         int dirReturn = 0;
+        /* horizontal */
         if (dirX != 0){
             switch (dirX){
+                /* left */
                 case -1:
                     dirReturn = 1;
                     break;
+                /* right */
                 case 1:
                     dirReturn = 2;
                     break;
             }
         }
+        /* vertical */
         else if (dirY !=0){
             switch (dirX) {
+                /* bottom */
                 case -1:
                     dirReturn = 3;
                     break;
+                /* top */
                 case 1:
                     dirReturn = 4;
                     break;
