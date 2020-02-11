@@ -62,6 +62,12 @@ public class GameEngine{
             SnakeAlive = false;
         }
     }
+    public int getW(){
+        return w;
+    }
+    public int getH(){
+        return h;
+    }
     public int getDir(){
         int dirReturn = 0;
         /* horizontal */
