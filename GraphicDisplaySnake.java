@@ -1,6 +1,9 @@
 import javax.swing.*;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Font;
+import java.awt.Rectangle;
+import java.awt.FontMetrics;
 
 class PartDisplay {
     private final int x;
@@ -69,8 +72,6 @@ public class GraphicDisplaySnake extends JPanel{
         }
         for (int[] coord : gameToDisplay.getSnakePos()){
             if (
-                gameToDisplay.SnakeAlive()
-                &&
                 !(coord[0] < 0 || coord[0] >= gameToDisplay.getW() || coord[1] < 0 || coord[1] >= gameToDisplay.getH())
                 ) {
                 PannelPart[coord[1]][coord[0]].setActive();
@@ -100,5 +101,25 @@ public class GraphicDisplaySnake extends JPanel{
                 }
             }
         }
+        if (!gameToDisplay.SnakeAlive()){
+            g.setColor(Color.green);
+            Font font = new Font("Arial", Font.BOLD, PannelPart[0][0].getSize()*4);
+            Rectangle rect = new Rectangle(0, 0, gameToDisplay.getW()*PannelPart[0][0].getSize(), gameToDisplay.getH() * PannelPart[0][0].getSize());
+            drawCenteredString(g, "Game over!", rect, font);
+        }
+    }
+    
+    public void drawCenteredString(Graphics g, String text, Rectangle rect, Font font) {
+        // Get the FontMetrics
+        FontMetrics metrics = g.getFontMetrics(font);
+        // Determine the X coordinate for the text
+        int x = rect.x + (rect.width - metrics.stringWidth(text)) / 2;
+        // Determine the Y coordinate for the text (note we add the ascent, as in java
+        // 2d 0 is top of the screen)
+        int y = rect.y + ((rect.height - metrics.getHeight()) / 2) + metrics.getAscent();
+        // Set the font
+        g.setFont(font);
+        // Draw the String
+        g.drawString(text, x, y);
     }
 }

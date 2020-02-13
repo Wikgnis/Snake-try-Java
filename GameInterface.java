@@ -12,6 +12,7 @@ public class GameInterface extends JFrame implements KeyListener{
     private typeDisplay currentDisplay;
     private GraphicDisplaySnake displayPannel;
     private int waitTime;
+    private boolean pause;
 
     /* constructor */
     public GameInterface(GameEngine game){
@@ -57,6 +58,7 @@ public class GameInterface extends JFrame implements KeyListener{
     public GameInterface(GameEngine game, String typeDis, int caseSize) {
         super();
         gameToDisplay = game;
+        pause = false;
         switch (typeDis) {
         case "graphical_interface":
             currentDisplay = typeDisplay.Graphical_interface;
@@ -182,28 +184,36 @@ public class GameInterface extends JFrame implements KeyListener{
 
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
-            /* left */
+            /* left arrow */
             case 37:
                 gameToDisplay.setDir(1);
                 break;
-            /* top */
+            /* top arrow */
             case 38:
                 gameToDisplay.setDir(3);
                 break;
-            /* right */
+            /* right arrow */
             case 39:
                 gameToDisplay.setDir(2);
                 break;
-            /* bottom */
+            /* bottom arrow */
             case 40:
                 gameToDisplay.setDir(4);
+                break;
+            case 32:
+                pause = !pause;
                 break;
             default:
                 break;
         }
+        //System.out.println(e.getKeyCode());
     }
 
     public void keyReleased(KeyEvent e) {}
 
     public void keyTyped(KeyEvent e) {}
+
+    public boolean pause(){
+        return pause;
+    }
 }

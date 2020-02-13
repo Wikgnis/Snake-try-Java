@@ -101,7 +101,7 @@ public class GameEngine{
         return false;
     }
 
-    public boolean snakeHit(int[] coord){
+    private boolean snakeHit(int[] coord){
         int[][] coordS = getSnakePos();
         for (int i=1; i<getSnakeSize(); i++){
             if (coord[0] == coordS[i][0] && coord[1] == coordS[i][1]){
@@ -127,12 +127,13 @@ public class GameEngine{
             body[i].y = body[i].topLevel.y;
         }
         /* head moving */
-        if (body[0].x < 0 || body[0].x >= w || body[0].y < 0 || body[0].y >= h || snakeHit(new int[] {body[0].x, body[0].y})){ // death handling
+        if (body[0].x < 0 || body[0].x >= w || body[0].y < 0 || body[0].y >= h){ // death handling
             SnakeAlive = false;
         }
         else {
             body[0].x += dirX;
             body[0].y += dirY;
+            if (snakeHit(new int[] { body[0].x, body[0].y })) SnakeAlive = false;
             /* add part if fruit eaten */
             if (fruitEaten) {
                 body[getSnakeSize()] = new BodyPart(coord[0], coord[1], body[getSnakeSize() - 1]);
