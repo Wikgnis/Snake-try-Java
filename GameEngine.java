@@ -94,6 +94,23 @@ public class GameEngine{
         return SnakeAlive;
     }
 
+    public boolean isSnake(int[] coord){
+        for (int[] coordS : getSnakePos()){
+            if ( coord[0] == coordS[0] && coord[1] == coordS[1]) return true;
+        }
+        return false;
+    }
+
+    public boolean snakeHit(int[] coord){
+        int[][] coordS = getSnakePos();
+        for (int i=1; i<getSnakeSize(); i++){
+            if (coord[0] == coordS[i][0] && coord[1] == coordS[i][1]){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void SnakeMove(){
         /* fruit interaction */
         int[] coord = getFruitPos();
@@ -110,7 +127,7 @@ public class GameEngine{
             body[i].y = body[i].topLevel.y;
         }
         /* head moving */
-        if (body[0].x < 0 || body[0].x >= w || body[0].y < 0 || body[0].y >= h){ // death handling
+        if (body[0].x < 0 || body[0].x >= w || body[0].y < 0 || body[0].y >= h || snakeHit(new int[] {body[0].x, body[0].y})){ // death handling
             SnakeAlive = false;
         }
         else {
@@ -199,5 +216,9 @@ public class GameEngine{
 
     public int[] getFruitPos(){
         return new int[] {gFruit.getX(), gFruit.getY()};
+    }
+
+    public boolean FrEaten(){
+        return gFruit.isEaten();
     }
 }

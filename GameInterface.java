@@ -11,6 +11,7 @@ public class GameInterface extends JFrame implements KeyListener{
     private enum typeDisplay{ Abstract, CMD_line, Graphical_interface }
     private typeDisplay currentDisplay;
     private GraphicDisplaySnake displayPannel;
+    private int waitTime;
 
     /* constructor */
     public GameInterface(GameEngine game){
@@ -28,6 +29,7 @@ public class GameInterface extends JFrame implements KeyListener{
                 /* window in itself */
                 this.setTitle("Snake in Java");
                 this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                this.setResizable(false);
                 /* jpannel */
                 displayPannel = new GraphicDisplaySnake(game, this, caseSize);
                 this.setContentPane(displayPannel);
@@ -65,6 +67,7 @@ public class GameInterface extends JFrame implements KeyListener{
             displayPannel = new GraphicDisplaySnake(game, this, caseSize);
             this.setContentPane(displayPannel);
             this.getContentPane().setPreferredSize(new Dimension(caseSize * (game.getW()), caseSize * (game.getH())));
+            this.setResizable(false);
             /* keylistener */
             this.addKeyListener(this);
             /* center window */
@@ -140,18 +143,25 @@ public class GameInterface extends JFrame implements KeyListener{
         CMD_lineDisplayTopBottomPart();
     }
 
+    private void speedSetup(){
+        if (waitTime == 0){
+            waitTime = 60;
+        }
+        else if (gameToDisplay.getSnakeSize()%4 == 0 && waitTime > 4 && gameToDisplay.FrEaten()){
+            waitTime--;
+        }
+    }
+
     private void Graphical_interfaceDisplay(){
-        // for debug
-        //CMD_lineDisplay();
-        AbstractDisplay();
         // main part
         displayPannel.update();
         displayPannel.repaint();
         try {
-            Thread.sleep(60);
+            Thread.sleep(waitTime);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        speedSetup();
     }
 
     public void display(){

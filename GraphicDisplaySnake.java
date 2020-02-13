@@ -56,7 +56,7 @@ public class GraphicDisplaySnake extends JPanel{
         }
         PannelPart[0][0].setSize(size);
         for (int[] coord : gameToDisplay.getSnakePos()) {
-            PannelPart[coord[0]][coord[1]].setActive();
+            PannelPart[coord[1]][coord[0]].setActive();
         }
     }
 
@@ -82,7 +82,7 @@ public class GraphicDisplaySnake extends JPanel{
         /* background */
         g.setColor(Color.black);
         g.fillRect(0, 0, this.getWidth(), this.getHeight());
-        /* snake */
+        /* snake  & fruit */
         int[] fruitCoords = gameToDisplay.getFruitPos();
         for (int i = 0; i < gameToDisplay.getH(); i++) {
             for (int e = 0; e < gameToDisplay.getW(); e++) {
@@ -100,6 +100,5 @@ public class GraphicDisplaySnake extends JPanel{
                 }
             }
         }
-        /* fruit */
     }
 }

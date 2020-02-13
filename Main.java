@@ -8,6 +8,6 @@ public class Main{
             game.SnakeMove();
             displayGame.display();
         }
-        System.out.println("Game Ended");
+        System.out.println("Game Over");
     }
 }
